@@ -95,7 +95,7 @@ footer {
 }
 
 .task-list {
-  /* flex: 1; */
+  flex: 1;
   list-style: none;
   padding: 15px;
   height: calc(100% - 50px);
