@@ -63,10 +63,9 @@ let createTaskEl = function(taskDataObj) {
 
   tasks.push(taskDataObj);
 
+  saveTasks();
+
   taskIdCounter++;
-  
-  console.log(taskDataObj);
-  console.log(taskDataObj.status);
 }
 
 let createTaskActions = function(taskId) {
@@ -120,6 +119,8 @@ let completeEditTask = function(taskName, taskType, taskId){
   
   alert("Task Updated!");
 
+  saveTasks();
+
   formEl.removeAttribute("data-task-id");
   document.querySelector("#save-task").textContent = "Add Task";
 }
@@ -127,13 +128,11 @@ let completeEditTask = function(taskName, taskType, taskId){
 formEl.addEventListener("submit", taskFormHandler);
 
 let taskButtonHandler = function(event){
-  console.log(event.target);
   let targetEl = event.target;
 
   if (targetEl.matches(".edit-btn")){
     let taskId = targetEl.getAttribute("data-task-id");
     editTask(taskId);
-
   }
 
   else if (targetEl.matches(".delete-btn")) {
@@ -168,6 +167,7 @@ let deleteTask = function(taskId) {
     }
   }
   tasks = updatedTaskArr;
+  saveTasks();
 };
 
 let taskStatusChangeHandler = function(event){
@@ -189,8 +189,13 @@ let taskStatusChangeHandler = function(event){
       tasks[i].status = statusValue;
     }
   }
-  console.log(tasks);
+
+  saveTasks();
 };
+
+let saveTasks = function(){
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
